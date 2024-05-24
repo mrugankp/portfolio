@@ -2,12 +2,11 @@ import React from 'react';
 
 const Experience = () => {
   return (
-    <div>
+    <section id="experience">
       <h1>Experience</h1>
       <p>Details about my professional experience...</p>
-    </div>
+    </section>
   );
 }
 
 export default Experience;
-

@@ -2,12 +2,11 @@ import React from 'react';
 
 const Projects = () => {
   return (
-    <div>
+    <section id="projects">
       <h1>Projects</h1>
       <p>Details about my projects...</p>
-    </div>
+    </section>
   );
 }
 
 export default Projects;
-

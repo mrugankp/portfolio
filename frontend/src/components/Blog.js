@@ -12,7 +12,7 @@ const Blog = () => {
   }, []);
 
   return (
-    <div>
+    <section id="blog">
       <h1>Blog</h1>
       <ul>
         {blogs.map(blog => (
@@ -21,9 +21,8 @@ const Blog = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
 
 export default Blog;
-
