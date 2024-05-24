@@ -36,10 +36,16 @@ const Navbar = () => {
   return (
     <nav>
       <ul>
-        <li><a className={activeSection === 'about' ? 'active' : ''} onClick={() => handleScrollToSection('about')}>About</a></li>
-        <li><a className={activeSection === 'experience' ? 'active' : ''} onClick={() => handleScrollToSection('experience')}>Experience</a></li>
-        <li><a className={activeSection === 'projects' ? 'active' : ''} onClick={() => handleScrollToSection('projects')}>Projects</a></li>
-        <li><a className={activeSection === 'blog' ? 'active' : ''} onClick={() => handleScrollToSection('blog')}>Blog</a></li>
+        {['about', 'experience', 'projects', 'blog'].map(section => (
+          <li key={section}>
+            <a
+              className={activeSection === section ? 'active' : ''}
+              onClick={() => handleScrollToSection(section)}
+            >
+              {section.charAt(0).toUpperCase() + section.slice(1)}
+            </a>
+          </li>
+        ))}
       </ul>
     </nav>
   );
