@@ -18,22 +18,21 @@ body {
   padding: 10px;
   display: flex;
   justify-content: center;
-  gap: 50px; /* Adjust gap for better spacing on smaller screens */
+  gap: 200px;
   z-index: 1000; /* Ensure it stays on top of other elements */
-  flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
 .contact-info a {
   color: #000;
   text-decoration: none;
   font-weight: bold;
-  font-size: 14px; /* Adjust font size for better readability on smaller screens */
 }
 
 .container {
   height: 100vh;
   width: 100%;
   overflow-y: auto;
+  scroll-snap-type: y mandatory; /* Enable scroll snapping */
   scroll-padding-top: 20px; /* Add padding to prevent overshooting */
 }
 
@@ -43,6 +42,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always; /* Ensure snap stop */
   transition: transform 0.5s ease-in-out;
   opacity: 0; /* Initial opacity for animation */
   position: relative;
@@ -79,7 +80,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px; /* Add padding for better spacing on smaller screens */
 }
 
 .section h1 {
@@ -191,6 +191,9 @@ body {
   color: #000000; /* Brighter text color for visibility */
 }
 
+/* Add this CSS to your existing styles */
+
+
 .box.expanded .close-icon {
   position: absolute;
   top: 10px;
@@ -210,48 +213,5 @@ body {
   }
   100% {
     transform: translateY(0);
-  }
-}
-
-/* Media Queries for Responsive Design */
-@media (max-width: 768px) {
-  .contact-info {
-    gap: 20px;
-  }
-
-  .section {
-    height: auto; /* Allow sections to adjust height based on content */
-    scroll-snap-align: none; /* Disable scroll snapping on mobile */
-  }
-
-  .section h1 {
-    font-size: 2rem;
-  }
-
-  .section p {
-    font-size: 1rem;
-  }
-
-  .box {
-    animation: none; /* Disable float animation on mobile */
-  }
-
-  .box.expanded {
-    width: 90vw;
-    height: 60vh;
-    padding: 20px;
-    position: fixed;
-    top: 10%;
-    left: 5%;
-    transform: none;
-  }
-
-  .box.expanded h2, .box.expanded h3, .box.expanded p {
-    padding: 0 10px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    padding: 10px;
   }
 }
