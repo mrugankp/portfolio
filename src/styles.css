@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url('../../images/about.png') no-repeat center center fixed; /* Background image */
+  background-size: cover; /* Ensure the background covers the entire viewport */
+  overflow: hidden; /* Prevent horizontal scrollbar */
+  scroll-behavior: smooth; /* Enable smooth scrolling */
+}
+
+.contact-info {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 200px;
+  z-index: 1000; /* Ensure it stays on top of other elements */
+}
+
+.contact-info a {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.container {
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory; /* Enable scroll snapping */
+  scroll-padding-top: 20px; /* Add padding to prevent overshooting */
+}
+
+.section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always; /* Ensure snap stop */
+  transition: transform 0.5s ease-in-out;
+  opacity: 0; /* Initial opacity for animation */
+  position: relative;
+}
+
+.section.animate {
+  animation: fadeIn 0s forwards, slideIn 0s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+#about, #experience, #projects, #blog {
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for content */
+}
+
+.section-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.section h1 {
+  color: #000000;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.section p {
+  color: #02020e;
+  font-size: 1.2rem;
+  max-width: 800px;
+  text-align: center;
+}
+
+.arrow-container {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.arrow {
+  font-size: 2rem;
+  color: #000000;
+  cursor: pointer;
+  animation: bounce 2.5s infinite; /* Bounce animation */
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px; /* Ensure a maximum width */
+  margin: 0 auto; /* Center the grid */
+}
+
+/* Remove the float animation when the box is expanded */
+.box {
+  background: #ffffff;
+  padding: 20px;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+  animation: float 3s ease-in-out infinite;
+}
+
+.box:hover {
+  transform: scale(1.05);
+}
+
+.box.expanded {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 50vh;
+  overflow-y: auto;
+  z-index: 1001; /* Bring the expanded box to the front */
+  background: #ffffff; /* Ensure the background is visible */
+  padding: 30px; /* Add padding for content */
+  text-align: left; /* Left-aligned text */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
+  animation: none; /* Stop the float animation */
+  user-select: text; /* Enable text selection */
+}
+
+.box.expanded h2, .box.expanded h3, .box.expanded p {
+  color: #000000; /* Brighter text color for visibility */
+  padding: 0 200px; /* Add padding for content */
+  text-align: center; /* Center the text */
+}
+
+.box.expanded h2 {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+}
+
+.box.expanded h3 {
+  margin: 0 0 20px;
+  font-size: 1.2rem;
+  color: #000000; /* Brighter text color for visibility */
+}
+
+.box.expanded p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #000000; /* Brighter text color for visibility */
+}
+
+/* Add this CSS to your existing styles */
+
+
+.box.expanded .close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #000;
+}
+
+/* Keyframes for float animation, not applied to expanded boxes */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
