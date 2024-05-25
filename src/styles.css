@@ -18,14 +18,16 @@ body {
   padding: 10px;
   display: flex;
   justify-content: center;
-  gap: 200px;
+  gap: 50px; /* Adjust gap for better spacing on smaller screens */
   z-index: 1000; /* Ensure it stays on top of other elements */
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
 .contact-info a {
   color: #000;
   text-decoration: none;
   font-weight: bold;
+  font-size: 14px; /* Adjust font size for better readability on smaller screens */
 }
 
 .container {
@@ -80,6 +82,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px; /* Add padding for better spacing on smaller screens */
 }
 
 .section h1 {
@@ -193,7 +196,6 @@ body {
 
 /* Add this CSS to your existing styles */
 
-
 .box.expanded .close-icon {
   position: absolute;
   top: 10px;
@@ -213,5 +215,35 @@ body {
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .contact-info {
+    gap: 20px;
+  }
+
+  .section h1 {
+    font-size: 2rem;
+  }
+
+  .section p {
+    font-size: 1rem;
+  }
+
+  .box.expanded {
+    width: 90vw;
+    height: 60vh;
+    padding: 20px;
+  }
+
+  .box.expanded h2, .box.expanded h3, .box.expanded p {
+    padding: 0 20px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    padding: 10px;
   }
 }
