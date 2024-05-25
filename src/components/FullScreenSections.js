@@ -107,7 +107,7 @@ const FullScreenSections = () => {
         <a href="https://www.linkedin.com/in/mrugankpednekar" target="_blank" rel="noopener noreferrer">
           LinkedIn
         </a>
-        <a href="/mnt/data/Pednekar_Mrugank_New.pdf" target="_blank" rel="noopener noreferrer">
+        <a href="../../images/Pednekar_Mrugank_New.pdf" target="_blank" rel="noopener noreferrer">
           Resume
         </a>
         <a href="mailto:mpednekar@wisc.edu">Email</a>
