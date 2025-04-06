@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaGamepad, FaLightbulb, FaArrowRight, FaArrowLeft, FaRobot } from 'react-icons/fa';
+import PixelatedImage from './PixelatedImage';
+import profileImage from './profile.jpg';
 
 const FullScreenSections = () => {
   const [gameMode, setGameMode] = useState(false);
@@ -8,6 +10,7 @@ const FullScreenSections = () => {
   const [score, setScore] = useState(0);
   const [currentSection, setCurrentSection] = useState(0);
   const [sectionsVisible, setSectionsVisible] = useState([true, false, false]);
+  const [showIntro, setShowIntro] = useState(true);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -137,144 +140,157 @@ const FullScreenSections = () => {
     }
   ];
 
-  return (
-    <div 
-      ref={containerRef}
-      className={`container ${gameMode ? 'game-mode' : ''}`}
-    >
-      <div className="mode-toggle">
-        <button 
-          onClick={() => setGameMode(!gameMode)}
-          className={`mode-button ${gameMode ? 'game-active' : ''}`}
-        >
-          {gameMode ? <FaGamepad /> : <FaLightbulb />}
-          {gameMode ? ' Exit Game Mode' : ' Enter Game Mode'}
-        </button>
-        {gameMode && <div className="score">Score: {score}</div>}
-      </div>
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+  };
 
-      {gameMode && (
-        <>
-          <div 
-            className="player"
-            style={{
-              left: playerPosition.x,
-              top: playerPosition.y,
-            }}
-          />
-          {collectibles.map((collectible, index) => (
-            !collectible.collected && (
-              <div
-                key={index}
-                className="collectible"
+  return (
+    <>
+      {showIntro ? (
+        <PixelatedImage 
+          onTransitionComplete={handleIntroComplete}
+          imageUrl={profileImage}
+        />
+      ) : (
+        <div 
+          ref={containerRef}
+          className={`container ${gameMode ? 'game-mode' : ''}`}
+        >
+          <div className="mode-toggle">
+            <button 
+              onClick={() => setGameMode(!gameMode)}
+              className={`mode-button ${gameMode ? 'game-active' : ''}`}
+            >
+              {gameMode ? <FaGamepad /> : <FaLightbulb />}
+              {gameMode ? ' Exit Game Mode' : ' Enter Game Mode'}
+            </button>
+            {gameMode && <div className="score">Score: {score}</div>}
+          </div>
+
+          {gameMode && (
+            <>
+              <div 
+                className="player"
                 style={{
-                  left: collectible.x,
-                  top: collectible.y,
+                  left: playerPosition.x,
+                  top: playerPosition.y,
                 }}
               />
-            )
-          ))}
-        </>
+              {collectibles.map((collectible, index) => (
+                !collectible.collected && (
+                  <div
+                    key={index}
+                    className="collectible"
+                    style={{
+                      left: collectible.x,
+                      top: collectible.y,
+                    }}
+                  />
+                )
+              ))}
+            </>
+          )}
+
+          <section id="about" className={`section ${sectionsVisible[0] ? 'visible' : ''}`}>
+            <div className="section-content">
+              <h1 className="name-title">Mrugank Pednekar</h1>
+              <h2 className="subtitle">MIT MBAn '26 | UW-Madison '25</h2>
+              <p>
+                Incoming Master of Business Analytics student at MIT Sloan School of Management (MBAn '26). 
+                Currently completing a quadruple major in Computer Engineering, Mathematics, Data Science, 
+                and Computer Science with a minor in Entrepreneurship at the University of Wisconsin-Madison.
+              </p>
+              <button 
+                className="mode-button"
+                onClick={() => scrollToSection(1)}
+                style={{ marginTop: '2rem' }}
+              >
+                Explore My Journey <FaArrowRight />
+              </button>
+            </div>
+          </section>
+
+          <section id="experience" className={`section ${sectionsVisible[1] ? 'visible' : ''}`}>
+            <div className="section-content">
+              <h2>Experience</h2>
+              <div className="grid">
+                {experiences.map((exp, index) => (
+                  <div key={index} className="box">
+                    <h3>{exp.title}</h3>
+                    <p className="period">{exp.period}</p>
+                    <p>{exp.details}</p>
+                    <div className="tags">
+                      {exp.tags.map((tag, i) => (
+                        <span key={i} className="tag">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
+                <button 
+                  className="mode-button"
+                  onClick={() => scrollToSection(0)}
+                >
+                  <FaArrowLeft /> Back
+                </button>
+                <button 
+                  className="mode-button"
+                  onClick={() => scrollToSection(2)}
+                >
+                  Next <FaArrowRight />
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section id="projects" className={`section ${sectionsVisible[2] ? 'visible' : ''}`}>
+            <div className="section-content">
+              <h2>Projects</h2>
+              <div className="grid">
+                {projects.map((project, index) => (
+                  <div key={index} className="box">
+                    <h3>{project.title}</h3>
+                    <p className="period">{project.period}</p>
+                    <p>{project.details}</p>
+                    <div className="tags">
+                      {project.tags.map((tag, i) => (
+                        <span key={i} className="tag">{tag}</span>
+                      ))}
+                    </div>
+                    {project.github && (
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="github-link">
+                        View on GitHub
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <button 
+                className="mode-button"
+                onClick={() => scrollToSection(1)}
+                style={{ marginTop: '2rem' }}
+              >
+                <FaArrowLeft /> Back
+              </button>
+            </div>
+          </section>
+
+          <div className="contact-info">
+            <a href="https://www.linkedin.com/in/mrugankpednekar" target="_blank" rel="noopener noreferrer">
+              LinkedIn
+            </a>
+            <a href="/Pednekar_Mrugank_MIT.pdf" target="_blank" rel="noopener noreferrer">
+              Resume
+            </a>
+            <a href="mailto:mpednekar@wisc.edu">Email</a>
+            <a href="https://mrugankpednekar.github.io" target="_blank" rel="noopener noreferrer">
+              <FaRobot /> Robotics
+            </a>
+          </div>
+        </div>
       )}
-
-      <section id="about" className={`section ${sectionsVisible[0] ? 'visible' : ''}`}>
-        <div className="section-content">
-          <h1 className="name-title">Mrugank Pednekar</h1>
-          <h2 className="subtitle">MIT MBAn '26 | UW-Madison '25</h2>
-          <p>
-            Incoming Master of Business Analytics student at MIT Sloan School of Management (MBAn '26). 
-            Currently completing a quadruple major in Computer Engineering, Mathematics, Data Science, 
-            and Computer Science with a minor in Entrepreneurship at the University of Wisconsin-Madison.
-          </p>
-          <button 
-            className="mode-button"
-            onClick={() => scrollToSection(1)}
-            style={{ marginTop: '2rem' }}
-          >
-            Explore My Journey <FaArrowRight />
-          </button>
-        </div>
-      </section>
-
-      <section id="experience" className={`section ${sectionsVisible[1] ? 'visible' : ''}`}>
-        <div className="section-content">
-          <h2>Experience</h2>
-          <div className="grid">
-            {experiences.map((exp, index) => (
-              <div key={index} className="box">
-                <h3>{exp.title}</h3>
-                <p className="period">{exp.period}</p>
-                <p>{exp.details}</p>
-                <div className="tags">
-                  {exp.tags.map((tag, i) => (
-                    <span key={i} className="tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
-            <button 
-              className="mode-button"
-              onClick={() => scrollToSection(0)}
-            >
-              <FaArrowLeft /> Back
-            </button>
-            <button 
-              className="mode-button"
-              onClick={() => scrollToSection(2)}
-            >
-              Next <FaArrowRight />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section id="projects" className={`section ${sectionsVisible[2] ? 'visible' : ''}`}>
-        <div className="section-content">
-          <h2>Projects</h2>
-          <div className="grid">
-            {projects.map((project, index) => (
-              <div key={index} className="box">
-                <h3>{project.title}</h3>
-                <p className="period">{project.period}</p>
-                <p>{project.details}</p>
-                <div className="tags">
-                  {project.tags.map((tag, i) => (
-                    <span key={i} className="tag">{tag}</span>
-                  ))}
-                </div>
-                {project.github && (
-                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="github-link">
-                    View on GitHub
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-          <button 
-            className="mode-button"
-            onClick={() => scrollToSection(1)}
-            style={{ marginTop: '2rem' }}
-          >
-            <FaArrowLeft /> Back
-          </button>
-        </div>
-      </section>
-
-      <div className="contact-info">
-        <a href="https://www.linkedin.com/in/mrugankpednekar" target="_blank" rel="noopener noreferrer">
-          LinkedIn
-        </a>
-        <a href="/Pednekar_Mrugank_MIT.pdf" target="_blank" rel="noopener noreferrer">
-          Resume
-        </a>
-        <a href="mailto:mpednekar@wisc.edu">Email</a>
-        <a href="https://mrugankpednekar.github.io" target="_blank" rel="noopener noreferrer">
-          <FaRobot /> Robotics
-        </a>
-      </div>
-    </div>
+    </>
   );
 };
 
