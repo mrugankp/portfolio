@@ -131,6 +131,10 @@ const FullScreenSections = () => {
       <div className="container">
         <GridBackground theme={theme} />
         
+        {/* Add side text */}
+        <div className="side-text left">Build.</div>
+        <div className="side-text right">Fast.</div>
+        
         <div className="contact-bar">
           <a href="https://www.linkedin.com/in/mrugankpednekar" target="_blank" rel="noopener noreferrer" className="contact-link">
             <FaLinkedin /> LinkedIn

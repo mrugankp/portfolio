@@ -539,3 +539,37 @@ body.game-active {
   --grid-line-light: rgba(0, 0, 0, 0.1);
   --grid-line-dark: rgba(0, 0, 0, 0.2);
 }
+
+/* Side text styles */
+.side-text {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 6rem;
+  font-weight: 600;
+  opacity: 0.1;
+  color: var(--text-color);
+  z-index: 0;
+  pointer-events: none;
+  letter-spacing: -2px;
+}
+
+.side-text.left {
+  left: 4rem;
+}
+
+.side-text.right {
+  right: 4rem;
+}
+
+@media (max-width: 1200px) {
+  .side-text {
+    font-size: 7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .side-text {
+    display: none;
+  }
+}
