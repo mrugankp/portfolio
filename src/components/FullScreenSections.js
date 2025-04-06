@@ -4,6 +4,7 @@ const FullScreenSections = () => {
   const sections = ['about', 'experience', 'projects', 'blog'];
   const sectionRefs = useRef(sections.map(() => React.createRef()));
   const [expanded, setExpanded] = useState(null);
+  const [activeSection, setActiveSection] = useState(0);
 
   useEffect(() => {
     const observerOptions = {
@@ -14,8 +15,8 @@ const FullScreenSections = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate');
-        } else {
-          entry.target.classList.remove('animate');
+          const index = sections.indexOf(entry.target.id);
+          setActiveSection(index);
         }
       });
     };
@@ -39,6 +40,10 @@ const FullScreenSections = () => {
 
   const handleBoxClick = (index) => {
     setExpanded(expanded === index ? null : index);
+  };
+
+  const handleSectionClick = (index) => {
+    sectionRefs.current[index].current.scrollIntoView({ behavior: 'smooth' });
   };
 
   const experiences = [
@@ -113,6 +118,17 @@ const FullScreenSections = () => {
         <a href="mailto:mpednekar@wisc.edu">Email</a>
         <a href="tel:+16083201167">Phone</a>
       </div>
+      <div className="section-navigation">
+        {sections.map((section, index) => (
+          <button
+            key={section}
+            className={`nav-button ${activeSection === index ? 'active' : ''}`}
+            onClick={() => handleSectionClick(index)}
+          >
+            {section.charAt(0).toUpperCase() + section.slice(1)}
+          </button>
+        ))}
+      </div>
       <div className="container">
         {sections.map((section, index) => (
           <div className="section" id={section} key={section} ref={sectionRefs.current[index]}>
@@ -170,8 +186,8 @@ const FullScreenSections = () => {
                             <>
                               <p>{proj.details}</p>
                               {proj.github && (
-                                <a href={proj.github} target="_blank" rel="noopener noreferrer">
-                                  GitHub Link
+                                <a href={proj.github} target="_blank" rel="noopener noreferrer" className="github-link">
+                                  View on GitHub
                                 </a>
                               )}
                             </>
@@ -190,8 +206,8 @@ const FullScreenSections = () => {
             </div>
             {index < sections.length - 1 && (
               <div className="arrow-container">
-                <div className="arrow down" onClick={() => sectionRefs.current[index + 1].current.scrollIntoView({ behavior: 'smooth' })}>
-                  &#x2193;
+                <div className="arrow" onClick={() => sectionRefs.current[index + 1].current.scrollIntoView({ behavior: 'smooth' })}>
+                  ↓
                 </div>
               </div>
             )}
