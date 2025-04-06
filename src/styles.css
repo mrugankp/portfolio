@@ -61,14 +61,17 @@ body {
   margin: 0 auto;
   padding: 2rem;
   position: relative;
+  background: transparent;
 }
 
 .header {
   text-align: center;
   margin-bottom: 4rem;
-  padding: 4rem 0;
+  padding: 8rem 0 4rem 0;
   border-bottom: 1px solid var(--border-color);
   position: relative;
+  z-index: 1;
+  background: var(--bg-color);
 }
 
 .nav-buttons {
@@ -77,11 +80,10 @@ body {
   right: 2rem;
   display: flex;
   gap: 1rem;
-  z-index: 1004;
+  z-index: 10;
 }
 
-.theme-toggle,
-.game-toggle {
+.theme-toggle {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   padding: 1rem;
@@ -97,22 +99,20 @@ body {
   z-index: 1004;
 }
 
-.theme-toggle:hover,
-.game-toggle:hover {
+.theme-toggle:hover {
   transform: scale(1.1);
 }
 
 /* Inverted colors for active states */
-.theme-toggle[data-active="true"],
-.game-toggle[data-active="true"] {
+.theme-toggle[data-active="true"] {
   background: var(--text-color);
   color: var(--bg-color);
 }
 
 .name {
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   font-weight: 600;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   letter-spacing: -0.5px;
   background: linear-gradient(to right, var(--text-color) 0%, #666 100%);
   -webkit-background-clip: text;
@@ -120,10 +120,11 @@ body {
 }
 
 .title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 400;
-  color: #666;
-  max-width: 600px;
+  color: var(--text-color);
+  opacity: 0.8;
+  max-width: 800px;
   margin: 0 auto;
   line-height: 1.8;
 }
@@ -135,21 +136,26 @@ body {
   margin-top: 2rem;
   padding-bottom: 5rem;
   position: relative;
+  z-index: 1;
 }
 
 .column {
   background: var(--bg-color);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-radius: 16px;
   padding: 1.5rem;
   position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .column-header {
-  font-size: 0.875rem;
+  font-size: 1.25rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 1.5rem;
-  color: #666;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+  opacity: 0.7;
   font-weight: 600;
 }
 
@@ -157,8 +163,8 @@ body {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
@@ -169,47 +175,45 @@ body {
   box-shadow: 0 8px 24px var(--shadow-color);
 }
 
-.expanded-card-container {
+/* Modal overlay */
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 100000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1001;
-  pointer-events: none;
 }
 
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Expanded card */
 .card.expanded {
   position: relative;
-  width: 90%;
-  max-width: 600px;
-  max-height: 80vh;
+  width: 95%;
+  max-width: 1000px;
+  max-height: 85vh;
   overflow-y: auto;
   background: var(--bg-color);
-  padding: 2rem;
+  padding: 3rem;
   border-radius: 16px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-  margin: 2rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  margin: 0;
   cursor: default;
-  pointer-events: auto;
   animation: cardExpand 0.3s ease;
   transform: none;
-}
-
-.card.expanded .card-content {
-  max-height: none;
-  opacity: 1;
-  margin-top: 1rem;
-  pointer-events: auto;
-}
-
-.card.expanded a,
-.card.expanded .tag {
-  pointer-events: auto;
-  cursor: pointer;
 }
 
 @keyframes cardExpand {
@@ -223,16 +227,41 @@ body {
   }
 }
 
+/* Ensure expanded card content is visible */
+.card.expanded .card-content {
+  max-height: none;
+  opacity: 1;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+/* Dark mode adjustments */
+:root[data-theme="dark"] .card.expanded {
+  background: var(--bg-color-dark);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+:root[data-theme="dark"] .modal-overlay {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* Remove old overlay styles */
+.overlay,
+.expanded-card-container {
+  display: none;
+}
+
 .card-title {
-  font-size: 1.125rem;
+  font-size: 2rem;
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .card-period {
-  font-size: 0.875rem;
+  font-size: 1.3rem;
   color: #666;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .card-content {
@@ -242,23 +271,16 @@ body {
   overflow: hidden;
 }
 
-.card.expanded .card-content {
-  max-height: none;
-  opacity: 1;
-  margin-top: 1rem;
-  pointer-events: auto;
-}
-
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: 0.75rem;
+  margin-top: 2rem;
 }
 
 .tag {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
+  font-size: 1rem;
+  padding: 0.5rem 1.25rem;
   background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 20px;
@@ -270,55 +292,44 @@ body {
   background: var(--hover-color);
 }
 
+/* Move contact bar to top and style it as a nav bar */
 .contact-bar {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
   background: var(--bg-color);
-  padding: 1.5rem;
+  padding: 1.25rem;
   display: flex;
   justify-content: center;
-  gap: 2rem;
-  border-top: 1px solid var(--border-color);
-  z-index: 1002;
+  gap: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1004;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px var(--shadow-color);
 }
 
 .contact-link {
   color: var(--text-color);
   text-decoration: none;
-  font-size: 0.875rem;
+  font-size: 1.25rem;
+  font-weight: 500;
   transition: var(--transition);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  gap: 0.75rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 12px;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px var(--shadow-color);
 }
 
 .contact-link:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--shadow-color);
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 1000;
-}
-
-.overlay.active {
-  opacity: 1;
-  pointer-events: auto;
+  box-shadow: 0 4px 16px var(--shadow-color);
+  background: var(--hover-color);
 }
 
 /* Email contact section */
@@ -327,22 +338,27 @@ body {
   padding: 4rem 1rem;
   margin-bottom: 5rem;
   border-top: 1px solid var(--border-color);
+  z-index: 1;
+  position: relative;
+  background: var(--bg-color);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .email-contact h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 500;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   background: linear-gradient(to right, var(--text-color) 0%, #666 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .email-contact p {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   color: #666;
-  margin-bottom: 2rem;
-  max-width: 600px;
+  margin-bottom: 2.5rem;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -355,14 +371,14 @@ body {
 .email-form input,
 .email-form textarea {
   width: 100%;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   background: var(--card-bg);
   color: var(--text-color);
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 1.2rem;
   transition: var(--transition);
 }
 
@@ -382,9 +398,9 @@ body {
   background: var(--text-color);
   color: var(--bg-color);
   border: none;
-  padding: 1rem 2rem;
+  padding: 1.25rem 2.5rem;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 500;
   cursor: pointer;
   transition: var(--transition);
@@ -397,16 +413,15 @@ body {
 
 @media (max-width: 768px) {
   .container {
-    padding: 1rem;
+    padding: 1.5rem;
   }
   
   .header {
-    padding: 2rem 0;
-    margin-bottom: 2rem;
+    padding: 7rem 0 3rem 0;
   }
   
   .name {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
   }
   
   .kanban {
@@ -414,13 +429,34 @@ body {
   }
   
   .card.expanded {
-    margin: 1rem -1rem;
-    padding: 1.5rem;
+    width: 100%;
+    padding: 2rem;
+    margin: 1rem;
+    max-height: 80vh;
+  }
+  
+  .card.expanded .card-title {
+    font-size: 1.75rem;
+  }
+  
+  .card.expanded .card-content {
+    font-size: 1.1rem;
   }
   
   .theme-toggle {
     top: 1rem;
     right: 1rem;
+  }
+  
+  .contact-bar {
+    padding: 1rem 0.5rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  
+  .contact-link {
+    font-size: 1.1rem;
+    padding: 0.6rem 1.25rem;
   }
 }
 
@@ -454,196 +490,52 @@ body {
 /* Ensure proper stacking in dark mode */
 :root[data-theme="dark"] .card.expanded {
   background: var(--bg-color-dark);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
 }
 
-:root[data-theme="dark"] .overlay.active {
-  background: rgba(0, 0, 0, 0.7);
+:root[data-theme="dark"] .modal-overlay {
+  background: rgba(0, 0, 0, 0.85);
 }
 
+/* Remove all game-related animations and classes */
 .game-mode .card,
 .game-mode .header,
 .game-mode .email-contact,
 .game-mode .column-header {
-  animation: fallDown 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  pointer-events: none;
+  animation: none;
+  pointer-events: auto;
 }
 
-/* Cascade effect for different elements */
-.game-mode .header {
-  animation-delay: 0s;
-}
-
-.game-mode .column-header {
-  animation-delay: 0.2s;
-}
-
-.game-mode .card:nth-child(2) {
-  animation-delay: 0.4s;
-}
-
-.game-mode .card:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-.game-mode .email-contact {
-  animation-delay: 0.8s;
-}
-
-@keyframes fallDown {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(50vh) rotate(20deg);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(150vh) rotate(45deg);
-    opacity: 0;
-  }
-}
-
-.game-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--bg-color);
-  z-index: 1003;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  cursor: none;
-  touch-action: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* Prevent scrolling when game is active */
-body.game-active {
-  overflow: hidden;
-  height: 100vh;
-  position: fixed;
-  width: 100%;
-}
-
-.pong-paddle {
-  width: 180px;
-  height: 20px;
-  background: var(--text-color);
-  position: absolute;
-  border-radius: 6px;
-  box-shadow: 0 4px 16px var(--shadow-color);
-  bottom: 50px;
-  will-change: left;
-  transition: none;
-  pointer-events: none;
-}
-
-.pong-ball {
-  width: 25px;
-  height: 25px;
-  background: var(--text-color);
-  position: absolute;
-  border-radius: 50%;
-  box-shadow: 0 0 15px var(--shadow-color);
-  transform: translate3d(0, 0, 0);
-  will-change: left, top;
-  transition: none;
-  pointer-events: none;
-}
-
-.game-over {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 8px 32px var(--shadow-color);
-  border: 1px solid var(--border-color);
-  z-index: 1005;
-}
-
-.game-over h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: var(--text-color);
-}
-
-.game-over p {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  color: var(--text-color);
-  opacity: 0.8;
-}
-
-.game-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.game-button {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  background: var(--text-color);
-  color: var(--bg-color);
-}
-
-.game-button:hover {
-  transform: scale(1.05);
-}
-
-.game-button.secondary {
-  background: transparent;
-  border: 1px solid var(--text-color);
-  color: var(--text-color);
-}
-
-.pong-score {
-  position: absolute;
-  top: 2rem;
-  font-size: 4rem;
-  font-weight: 600;
-  color: var(--text-color);
-  font-family: monospace;
-  opacity: 0.2;
-  z-index: 1004;
-}
-
-/* Remove old game styles */
+/* Remove game container and related styles */
+.game-container,
 .game-character,
 .game-obstacle,
-.game-floor {
+.game-floor,
+.game-controls-hint,
+.pong-paddle,
+.pong-ball,
+.game-over,
+.game-buttons,
+.game-button,
+.pong-score {
   display: none;
 }
 
-.game-controls-hint {
-  position: absolute;
-  bottom: 120px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--text-color);
-  opacity: 0.6;
-  font-size: 0.9rem;
-  text-align: center;
-  font-family: monospace;
-  pointer-events: none;
-  text-shadow: 0 1px 2px var(--shadow-color);
+/* Remove game mode body styles */
+body.game-active {
+  overflow: auto;
+  height: auto;
+  position: static;
+  width: auto;
 }
 
-/* Remove old positioning styles */
-.pong-paddle.bottom {
-  max-width: calc(100vw - 40px);
+/* Adjust grid lines for dark mode */
+:root[data-theme="dark"] .grid-background {
+  --grid-line-light: rgba(255, 255, 255, 0.1);
+  --grid-line-dark: rgba(255, 255, 255, 0.2);
+}
+
+:root[data-theme="light"] .grid-background {
+  --grid-line-light: rgba(0, 0, 0, 0.1);
+  --grid-line-dark: rgba(0, 0, 0, 0.2);
 }
